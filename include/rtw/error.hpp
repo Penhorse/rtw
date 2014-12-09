@@ -5,6 +5,10 @@
 #include <string>
 #include <stdexcept>
 
+#if defined(_WIN32)
+#define __func__ __FUNCTION__
+#endif
+
 #define RTW_NOT_IMPLEMENTED\
 	throw std::runtime_error(std::string("not implemented: ") + __func__);
 

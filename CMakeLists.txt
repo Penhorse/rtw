@@ -17,6 +17,7 @@ set(rtw_include_files
 	rtw
 	scoped_op
 	linux/filesystem
+	windows/filesystem
 )
 
 macro(set_include_files output dir)

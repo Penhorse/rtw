@@ -48,19 +48,6 @@ inline std::string file_name(const std::string & path)
 	return std::string(last_delim.base(), path.end());
 }
 
-inline std::string absolute(const std::string & path)
-{
-	const auto real_path = realpath(path.c_str(), nullptr);
-
-	if(!real_path) return "";
-
-	const std::string result(real_path);
-
-	free(real_path);
-
-	return result;
-}
-
 } // namespace fs
 	
 } // namespace rtw

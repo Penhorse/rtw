@@ -3,7 +3,7 @@
 
 find_path(
 	RTW_INCLUDE_DIR
-	PATHS
+	NAMES
 		rtw/error.hpp
 		rtw/filesystem.hpp
 		rtw/rtw.hpp
