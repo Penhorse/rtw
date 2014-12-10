@@ -48,6 +48,24 @@ inline std::string file_name(const std::string & path)
 	return std::string(last_delim.base(), path.end());
 }
 
+inline char path_separator()
+{
+	return PATH_SEPARATORS[0];
+}
+
+inline std::string join(const std::string & path)
+{
+	return path;
+}
+
+template <class ...Args> std::string join(const std::string & path, Args... tail)
+{
+	return
+		path.empty()
+			? join(tail...)
+			: path + path_separator() + join(tail...);
+}
+
 } // namespace fs
 	
 } // namespace rtw

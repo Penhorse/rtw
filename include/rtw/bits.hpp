@@ -18,7 +18,7 @@ template <class T> long make_mask(T v0)
 
 template <class T, class ...Args> long make_mask(T v0, Args... v)
 {
-	return make_bitmask(v0) | make_bitmask(v...);
+	return make_mask(v0) | make_mask(v...);
 }
 	
 } // namespace bits
