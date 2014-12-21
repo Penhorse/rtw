@@ -17,12 +17,18 @@ static const char PATH_SEPARATORS[] = { '/', '\\' };
 
 inline bool is_file(const std::string & path)
 {
-	RTW_NOT_IMPLEMENTED;
+	const auto attribs = GetFileAttributesA(path.c_str());
+	
+	return
+		attribs != INVALID_FILE_ATTRIBUTES &&
+		!(attribs & FILE_ATTRIBUTE_DIRECTORY);
 }
 
 inline bool is_directory(const std::string & path)
 {
-	RTW_NOT_IMPLEMENTED;
+	const auto attribs = GetFileAttributesA(path.c_str());
+	
+	return (attribs & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY;
 }
 
 inline bool make_directory(const std::string & path)
@@ -32,7 +38,29 @@ inline bool make_directory(const std::string & path)
 
 inline std::deque<std::string> directory_contents(const std::string & path)
 {
-	RTW_NOT_IMPLEMENTED;
+	WIN32_FIND_DATA find_data;
+	
+	const auto f = FindFirstFileA((path + "\\*").c_str(), &find_data);
+	
+	if(f == INVALID_HANDLE_VALUE) return std::deque<std::string>();
+	
+	std::deque<std::string> result;
+	
+	do
+	{
+		const auto file_name = find_data.cFileName;
+		const auto full_path = path + '\\' + file_name;
+		
+		if(file_name[0] != '.')
+		{
+			result.push_back(full_path);
+		}
+	}
+	while(FindNextFileA(f, &find_data));
+	
+	FindClose(f);
+	
+	return result;
 }
 
 inline std::string absolute(const std::string & path)
