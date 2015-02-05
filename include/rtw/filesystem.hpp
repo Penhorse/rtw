@@ -17,7 +17,7 @@
 #include <algorithm>
 #include <string>
 
-#include "meta.hpp"
+#include "algorithms.h"
 
 namespace rtw
 {
@@ -37,7 +37,7 @@ inline std::string extension_of(const std::string & path)
 
 inline bool is_path_separator(const char c)
 {
-	return meta::is_one_of(c, PATH_SEPARATORS);
+	return algo::contains(PATH_SEPARATORS, c);
 }
 	
 inline std::string file_name(const std::string & path)

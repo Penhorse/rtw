@@ -39,21 +39,6 @@ namespace meta
 	private:\
 		Type Name##_
 
-//
-// returns true if [range] contains [value], otherwise false
-// i dunno why this is in meta.hpp
-// it shouldn't be
-//
-template <class T, class Range> bool is_one_of(const T value, const Range & range)
-{
-	for(const auto item : list)
-	{
-		if(value == item) return true;
-	}
-
-	return false;
-}
-	
 } // namespace meta
 	
 } // namespace rtw
