@@ -9,6 +9,7 @@ endmacro()
 set(dir_inc include)
 
 set(rtw_include_files
+	algorithms
 	arrays
 	bits
 	error

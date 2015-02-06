@@ -17,7 +17,7 @@
 #include <algorithm>
 #include <string>
 
-#include "algorithms.h"
+#include "algorithms.hpp"
 
 namespace rtw
 {

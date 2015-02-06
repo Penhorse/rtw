@@ -12,7 +12,7 @@ namespace algo
 template <class Container>
 bool contains(
 		const Container & c,
-		const typename decltype(c.begin())::value_type & item)
+		const typename Container::value_type & item)
 {
 	return std::find(c.begin(), c.end(), item) != c.end();
 }
