@@ -39,6 +39,27 @@ namespace meta
 	private:\
 		Type Name##_
 
+//
+// NoCopy
+//
+// you know what this is
+//``````````````````````````````````````````````````````````````````````````````
+//	class Fart : private NoCopy
+//	{
+//		...
+//	};
+//,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+//
+class NoCopy
+{
+
+protected:
+
+	NoCopy() = default;
+	NoCopy(const NoCopy &) = delete;
+	NoCopy & operator=(const NoCopy &) = delete;
+};
+
 } // namespace meta
 	
 } // namespace rtw
