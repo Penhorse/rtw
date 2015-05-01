@@ -1,7 +1,4 @@
-# rtw
-shameful code written by an idiot. go fuck youself
-
-## Reinvent The Wheel
+# rtw: Reinvent The Wheel
 
 rtw is not a general purpose utility library
 
