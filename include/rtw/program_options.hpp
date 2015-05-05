@@ -39,11 +39,11 @@ setup:
 	desc.add_switch(1, 1, "version", 'v', { "1", "2", "3" }, "file version");
 
 	// flags are options which don't expect any values
-	desc.add_flag("foo", "required");
+	desc.add_flag("foo", "foo description");
 
 	// you can also specify options like this:
 	const auto option_bar =
-		ProgramOptions::Desc::Option::make_flag("bar", "optional", true);
+		ProgramOptions::Desc::Option::make_flag("bar", "bar description");
 
 	// and supply the short-form character here:
 	desc.add_option(option_bar, 'b');
@@ -61,7 +61,7 @@ setup:
 	}
 
 	// check that all the non-optional options were supplied
-	error = check_required_options(result);
+	error = desc.check_required_options(result);
 
 	if(error)
 	{
@@ -76,7 +76,7 @@ printing the program usage:
  
 output: ------------------------------------------------------------------------
 	./path/to/program --path <file path> --something <something else> --version
-	<1|2|3> --foo <required> [--bar <optional>]
+	<1|2|3> --foo <foo description> --bar <bar description>
  
 ````````````````````````````````````````````````````````````````````````````````
  
@@ -86,20 +86,20 @@ printing program help:
 
 output: ------------------------------------------------------------------------
 	./path/to/program --path <file path> --something <something else> --version
-	<1|2|3> --foo <required> [--bar <optional>]
+	<1|2|3> --foo <foo description> --bar <bar description>
 
-	   --path, -p       file path
-	  --something  something else
-	--version, -v    file version
-	        --foo        required
-	    --bar, -b        optional
+	   --path, -p        file path
+	  --something   something else
+	--version, -v     file version
+	        --foo  foo description
+	    --bar, -b  bar description
 
 ````````````````````````````````````````````````````````````````````````````````
 
 using results:
 --------------------------------------------------------------------------------
 	const auto file_path = result.options["path"][0];
-	const auto foo       = result.flags["foo"][0];
+	const auto foo       = result.has_flag("foo");
 	
 ````````````````````````````````````````````````````````````````````````````````
 
@@ -137,7 +137,7 @@ public:
 	
 	struct Result
 	{
-		std::map<std::string, bool> flags;
+		std::set<std::string> flags;
 		std::map<std::string, std::vector<std::string>> options;
 
 		bool has_flag(const std::string & key) const;
@@ -163,7 +163,7 @@ public:
 			bool operator<(const Option & rhs) const;
 			bool value_is_allowed(const std::string & value) const;
 
-			static Option make_flag(const std::string & key, const std::string & desc, bool optional = false);
+			static Option make_flag(const std::string & key, const std::string & desc);
 			static Option make_value(int min_values, int max_values, const std::string & key, const std::string & desc, bool optional = false);
 			static Option make_switch(int min_values, int max_values, const std::string & key, const std::set<std::string> & allowed_values, const std::string & desc, bool optional = false);
 
@@ -172,8 +172,8 @@ public:
 
 		Desc(const char * const argv0);
 
-		void add_flag(const std::string & long_key, const std::string & desc, bool optional = false);
-		void add_flag(const std::string & long_key, char short_key, const std::string & desc, bool optional = false);
+		void add_flag(const std::string & long_key, const std::string & desc);
+		void add_flag(const std::string & long_key, char short_key, const std::string & desc);
 		void add_value(int min_values, int max_values, const std::string & long_key, const std::string & desc, bool optional = false);
 		void add_value(int min_values, int max_values, const std::string & long_key, char short_key, const std::string & desc, bool optional = false);
 		void add_switch(int min_values, int max_values, const std::string & long_key, const std::set<std::string> & allowed_values, const std::string & desc, bool optional = false);
@@ -313,6 +313,10 @@ inline bool ProgramOptions::Result::exists(OptionType type, const std::string & 
 		{
 			return has_option(key);
 		}
+		default:
+		{
+			return false;
+		}
 	}
 }
 
@@ -339,9 +343,9 @@ inline bool ProgramOptions::Desc::Option::value_is_allowed(const std::string & v
 	return false;
 }
 
-inline auto ProgramOptions::Desc::Option::make_flag(const std::string & key, const std::string & desc, bool optional) -> Option
+inline auto ProgramOptions::Desc::Option::make_flag(const std::string & key, const std::string & desc) -> Option
 {
-	return { OptionType::Flag, optional, 0, 0, key, {}, desc };
+	return { OptionType::Flag, true, 0, 0, key, {}, desc };
 }
 
 inline auto ProgramOptions::Desc::Option::make_value(int min_values, int max_values, const std::string & key, const std::string & desc, bool optional) -> Option
@@ -365,14 +369,14 @@ inline ProgramOptions::Desc::Desc(const char * const argv0) :
 	// nothing
 }
 
-inline void ProgramOptions::Desc::add_flag(const std::string & long_key, const std::string & desc, bool optional)
+inline void ProgramOptions::Desc::add_flag(const std::string & long_key, const std::string & desc)
 {
-	options_.insert({ OptionType::Flag, optional, 0, 0, long_key, {}, desc });
+	options_.insert({ OptionType::Flag, true, 0, 0, long_key, {}, desc });
 }
 
-inline void ProgramOptions::Desc::add_flag(const std::string & long_key, char short_key, const std::string & desc, bool optional)
+inline void ProgramOptions::Desc::add_flag(const std::string & long_key, char short_key, const std::string & desc)
 {
-	add_flag(long_key, desc, optional);
+	add_flag(long_key, desc);
 
 	short_key_map_[short_key] = long_key;
 }
@@ -613,7 +617,7 @@ inline auto ProgramOptions::parse(int argc, const char * argv[], Result * result
 
 				if(option.type == OptionType::Flag)
 				{
-					result->flags[option.key] = true;
+					result->flags.insert(option.key);
 				}
 				else
 				{
