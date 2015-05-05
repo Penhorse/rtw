@@ -22,7 +22,7 @@ public:
 	void join();
 
 	template <class Function, class... Args>
-	future_of<Function, Args...>
+	std::future<typename std::result_of<Function(Args...)>::type>
 	async(Function f, Args ... args)
 	{
 		using Result = typename std::result_of<Function(Args...)>::type;
