@@ -91,7 +91,7 @@ inline auto SpellCorrect::get_splits(const std::string & word) -> std::set<Split
 {
 	std::set<Split> result;
 
-	for(int i = 0; i < word.size(); i++)
+	for(std::string::size_type i = 0; i < word.size(); i++)
 	{
 		result.insert({ word.substr(0, i), word.substr(i) });
 	}

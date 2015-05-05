@@ -544,8 +544,8 @@ inline void ProgramOptions::Desc::print_help(std::ostream & os) const
 
 	os << std::endl;
 
-	int longest_key = 0;
-	int longest_desc = 0;
+	std::string::size_type longest_key = 0;
+	std::string::size_type longest_desc = 0;
 
 	for(const auto & opt : options_)
 	{
