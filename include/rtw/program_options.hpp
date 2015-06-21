@@ -322,13 +322,26 @@ inline bool ProgramOptions::Result::exists(OptionType type, const std::string & 
 
 inline bool ProgramOptions::Desc::Option::operator<(const Option & rhs) const
 {
-	if(type < rhs.type) return true;
-	if(optional < rhs.optional) return true;
-	if(min_values < rhs.min_values) return true;
-	if(max_values < rhs.max_values) return true;
-	if(key < rhs.key) return true;
-	if(allowed_values < rhs.allowed_values) return true;
-	if(desc < rhs.desc) return true;
+	if (type < rhs.type) return true;
+	if (type > rhs.type) return false;
+
+	if (optional < rhs.optional) return true;
+	if (optional > rhs.optional) return false;
+
+	if (min_values < rhs.min_values) return true;
+	if (min_values > rhs.min_values) return false;
+
+	if (max_values < rhs.max_values) return true;
+	if (max_values > rhs.max_values) return false;
+
+	if (key < rhs.key) return true;
+	if (key > rhs.key) return false;
+
+	if (allowed_values < rhs.allowed_values) return true;
+	if (allowed_values > rhs.allowed_values) return false;
+
+	if (desc < rhs.desc) return true;
+	if (desc > rhs.desc) return false;
 
 	return false;
 }
