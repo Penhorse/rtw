@@ -48,6 +48,16 @@ inline std::string file_name(const std::string & path)
 	return std::string(last_delim.base(), path.end());
 }
 
+inline std::string file_name_no_extension(const std::string & path)
+{
+	const auto fn = file_name(path);
+
+	const auto last_dot =
+		std::find_if(fn.rbegin(), fn.rend(), [](char c) { return c == '.'; });
+
+	return std::string(fn.begin(), last_dot.base() - 1);
+}
+
 inline char path_separator()
 {
 	return PATH_SEPARATORS[0];
