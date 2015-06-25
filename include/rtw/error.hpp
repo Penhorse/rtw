@@ -55,7 +55,22 @@ inline std::string failed_to_do_x_with_y(const std::string x, const std::string 
 {
 	return failed_to_do_x(x) + " '" + y + "'";
 }
+
+inline std::string failed_to_open_file(const std::string & path, const std::string & why = std::string())
+{
+	return failed_to_do_x_with_y("open file", path) + (why.empty() ? std::string() : std::string(" (") + why + ")");
+}
 	
+inline std::string failed_to_open_file_for_read(const std::string & path, const std::string & why = std::string())
+{
+	return failed_to_do_x_with_y("open file for read", path) + (why.empty() ? std::string() : std::string(" (") + why + ")");
+}
+
+inline std::string failed_to_open_file_for_write(const std::string & path, const std::string & why = std::string())
+{
+	return failed_to_do_x_with_y("open file for write", path) + (why.empty() ? std::string() : std::string(" (") + why + ")");
+}
+
 } // namespace error
 
 } // namespace rtw
