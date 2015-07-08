@@ -1,5 +1,8 @@
 #pragma once
 
+#include <algorithm>
+#include <map>
+
 namespace rtw
 {
 
@@ -15,6 +18,17 @@ bool contains(
 		const typename Container::value_type & item)
 {
 	return std::find(c.begin(), c.end(), item) != c.end();
+}
+
+//
+// returns true if map [c] contains [key]
+//
+template <class Key, class Value>
+bool contains(
+		const std::map<Key, Value> & c,
+		const Key & key)
+{
+	return c.find(key) != c.end();
 }
 
 //
