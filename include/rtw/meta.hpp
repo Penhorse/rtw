@@ -40,6 +40,15 @@ namespace meta
 		Type Name##_
 
 //
+// this one's the same except the accessor returns a (const Type &)
+//
+#define FIELD_REF(Type, Name)\
+	public:\
+		const Type & Name() const { return Name##_; }\
+	private:\
+		Type Name##_
+
+//
 // NoCopy
 //
 // you know what this is
