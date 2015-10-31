@@ -1,5 +1,15 @@
 #pragma once
 
+#if defined(_WIN32)
+
+#include "windows/dynamic_library.hpp"
+
+#elif defined(__linux__) || defined(__APPLE__)
+
+#include "linux/dynamic_library.hpp"
+
+#endif
+
 #include <deque>
 #include <functional>
 #include <string>
@@ -40,7 +50,7 @@ bool DynamicLibrary::load(const std::deque<std::string> & search_paths)
 {
 	if(library_)
 	{
-		close(library_);
+		dylib::close(library_);
 	}
 
 	if(!search_paths.empty())
@@ -55,7 +65,7 @@ bool DynamicLibrary::load(const std::deque<std::string> & search_paths)
 		}
 	}
 
-	return (library_ = load(name_)) != nullptr;
+	return (library_ = dylib::load(name_)) != nullptr;
 }
 
 bool DynamicLibrary::loaded() const
