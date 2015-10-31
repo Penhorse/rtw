@@ -39,14 +39,14 @@ private:
 
 };
 
-DynamicLibrary::DynamicLibrary(const std::string & name) :
+inline DynamicLibrary::DynamicLibrary(const std::string & name) :
 	name_(name),
 	library_(nullptr)
 {
 	// nothing
 }
 
-bool DynamicLibrary::load(const std::deque<std::string> & search_paths)
+inline bool DynamicLibrary::load(const std::deque<std::string> & search_paths)
 {
 	if(library_)
 	{
@@ -68,12 +68,12 @@ bool DynamicLibrary::load(const std::deque<std::string> & search_paths)
 	return (library_ = dylib::load(name_)) != nullptr;
 }
 
-bool DynamicLibrary::loaded() const
+inline bool DynamicLibrary::loaded() const
 {
 	return library_;
 }
 
-DynamicLibrary::~DynamicLibrary()
+inline DynamicLibrary::~DynamicLibrary()
 {
 	if(library_)
 	{

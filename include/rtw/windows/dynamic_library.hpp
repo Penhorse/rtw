@@ -15,17 +15,17 @@ inline std::string get_filename(const std::string & name)
 	return name + ".dll";
 }
 
-void close(void * library)
+inline void close(void * library)
 {
 	FreeLibrary((HMODULE)library);
 }
 
-void * load(const std::string & path)
+inline void * load(const std::string & path)
 {
 	return LoadLibrary(path.c_str());
 }
 
-void * get_function(void * library, const std::string & name)
+inline void * get_function(void * library, const std::string & name)
 {
 	return GetProcAddress((HMODULE)library, name.c_str());
 }
