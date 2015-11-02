@@ -14,6 +14,8 @@
 #include <functional>
 #include <string>
 
+#include <rtw/filesystem.hpp>
+
 namespace rtw
 {
 	
@@ -57,7 +59,7 @@ inline bool DynamicLibrary::load(const std::deque<std::string> & search_paths)
 	{
 		for(const auto & search_path : search_paths)
 		{
-			const auto full_path = search_path + "/" + name_;
+			const auto full_path = fs::join(search_path, name_);
 
 			library_ = dylib::load(full_path);
 
