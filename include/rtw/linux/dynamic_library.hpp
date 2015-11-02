@@ -18,14 +18,15 @@ inline void close(void * library)
 	dlclose(library);
 }
 
-inline void * DynamicLibrary::load(const std::string & path)
+inline void * load(const std::string & path)
 {
 	return dlopen(path.c_str(), RTLD_LAZY);
 }
 
-inline void * DynamicLibrary::get_function(void * library, const std::string & name)
+inline void * get_function(void * library, const std::string & name)
 {
 	return dlsym(library, name.c_str());
 }
 
-}
+} // namespace dylib
+} // namespace rtw
