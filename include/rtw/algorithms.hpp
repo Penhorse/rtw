@@ -39,7 +39,13 @@ bool contains(const T(&c)[Size], T item)
 {
 	return std::find(std::begin(c), std::end(c), item) != std::end(c);
 }
-	
+
+template <class T>
+std::vector<T> get_last_n_elements(const std::vector<T> & c, size_t n)
+{
+	return std::vector<T>(c.end() - std::min(c.size(), n), c.end());
+}
+
 } // namespace algo
 	
 } // namespace rtw
