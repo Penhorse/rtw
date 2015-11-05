@@ -8,9 +8,9 @@
 
 #include "linux/filesystem.hpp"
 
-#else
+#elif defined(__APPLE__)
 
-#error(platform not supported yet)
+#include "osx/filesystem.hpp"
 
 #endif
 

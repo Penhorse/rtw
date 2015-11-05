@@ -4,9 +4,13 @@
 
 #include "windows/dynamic_library.hpp"
 
-#elif defined(__linux__) || defined(__APPLE__)
+#elif defined(__linux__)
 
 #include "linux/dynamic_library.hpp"
+
+#elif defined(__APPLE__)
+
+#include "osx/dynamic_library.hpp"
 
 #endif
 

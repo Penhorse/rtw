@@ -9,7 +9,7 @@ namespace dylib
 
 inline std::string get_filename(const std::string & name)
 {
-	return std::string("lib") + name + ".so";
+	return std::string("lib") + name + ".dylib";
 }
 
 } // namespace dylib
