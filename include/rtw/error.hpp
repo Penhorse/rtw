@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <stdexcept>
 
@@ -46,9 +47,18 @@ inline int pokemon(std::function<void()> func)
 	return basic_pokemon<int, EXIT_SUCCESS, EXIT_FAILURE>(func);
 }
 
-inline std::string failed_to_do_x(const std::string x)
+inline std::string failed_to_do_x(const std::string x, const std::string & why = std::string())
 {
-	return std::string("failed to ") + x;
+	std::stringstream ss;
+
+	ss << "Failed to " << x;
+
+	if (!why.empty())
+	{
+		ss << " (" << why << ")";
+	}
+
+	return ss.str();
 }
 
 inline std::string failed_to_do_x_with_y(const std::string x, const std::string y)
