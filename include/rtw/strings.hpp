@@ -36,12 +36,12 @@ std::vector<std::string> split(const std::string & s, Predicate p)
 	return result;
 }
 
-void toupper(std::string * s)
+static void toupper(std::string * s)
 {
 	std::transform(s->begin(), s->end(), s->begin(), ::toupper);
 }
 	
-std::string toupper(const std::string & s)
+static std::string toupper(const std::string & s)
 {
 	std::string result(s);
 
