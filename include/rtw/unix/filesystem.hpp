@@ -4,6 +4,8 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <climits>
+#include <cstdlib>
 
 #include <deque>
 #include <string>
